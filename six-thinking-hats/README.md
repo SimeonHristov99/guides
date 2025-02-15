@@ -1,4 +1,4 @@
-# On Goal Setting
+# The Six Thinking Hats
 
 ## Context
 
