@@ -1,6 +1,6 @@
-## Finance
+# Finance
 
-### Guidelines
+## Guidelines
 
 1. The 50/20/30 rule:
    - `50%` of your income goes to **needs**: rent, food, bills, transportation, insurance, etc. Your necessary stuff.
@@ -12,11 +12,11 @@
    - Leave it alone. Don't check it constantly.
 3. Spend money on the stuff you love. Cut costs on the things you don't.
 
-### Todo for oneself
+## Todo for oneself
 
 - [ ] Take your monthly income and divide it into the above percentiles to get a sense of what you have available for a month.
 - [ ] Take your yearly income and divide it into the above percentiles to get a sense of what you have available for a year.
 
-### Resources
+## Resources
 
 - personal finance, for idiots like me.: <https://www.youtube.com/watch?v=anvI3ifjHaY>.
