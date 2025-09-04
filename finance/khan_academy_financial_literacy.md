@@ -17,8 +17,11 @@
   - can be a problem because it can cost you more money in interest and fees, damage your credit score, or cause stress and conflict with friends and family.
 - **Fixed Expenses**: expenses that are the same every month, such as your rent, car payment, insurance, or cell phone bill.
 - **Variable Expenses**: expenses that can vary from month-to-month, like some utilities, groceries, or shopping.
+- **Planned expenses**: expenses that are predictable and occur on a repeating basis.
 
-## Unit 2: Budget
+## Budgeting and saving
+
+### Budgeting
 
 - Track your income and expenses.
 - Set and achieve your goals (saving for a bike, a college fund, or a vacation).
@@ -47,4 +50,27 @@
   - A short term fix to a negative budget balance is to simply move funds from the budget balance that was positive into the negative one.
     - For example, if your savings budget balance was negative, but your needs budget balance was positive, you can take the extra money from needs and move it onto savings.
     - Note that this is only a short-term solution, and we should really try and figure out the cause of the negative balance.
+  - Negotiate a lower bill with your service providers.
 - You have a monthly income of $\$3,000$‍. How much of your monthly income should you save of invest for your future?
+- Follow-up tasks:
+  - [ ] Take your monthly income and divide it into the above percentiles to get a sense of what you have available for a month.
+  - [ ] Take your yearly income and divide it into the above percentiles to get a sense of what you have available for a year.
+  - [ ] Create a budget following the `50:30:20` rule.
+
+### Per unit pricing
+
+- Per unit pricing tells you how much you're paying per ounce, per pound, or per item.
+- Paying attention to per unit pricing can help you figure out which product is the best deal.
+- If you're shopping for toilet paper, you might see two different brands. One costs ‍$$5.99$ for $12$ rolls, while the other costs ‍$$7.99$ for $18$ rolls.
+- It appears that the first option is the best deal, but if you compare per unit pricing, you'll see that the second option is actually cheaper:
+  - The first option costs ‍$$0.50$ per roll.
+  - The second option costs only ‍$$0.44$ per roll.
+- Follow-up tasks:
+  - [ ] Next time you see conflicting prices, look at the price per unit, not the total price.
+
+### Emergency fund
+
+- `3` to `6` months of your needed expenditure.
+  - If your needs are `$2000`, then save up `$6000` to `$12000` in an emergency fund.
+- Follow-up tasks:
+  - [ ] Calculate what amount you need for the emergency fund and start saving it.
