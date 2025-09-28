@@ -18,6 +18,7 @@
 - **Fixed Expenses**: expenses that are the same every month, such as your rent, car payment, insurance, or cell phone bill.
 - **Variable Expenses**: expenses that can vary from month-to-month, like some utilities, groceries, or shopping.
 - **Planned expenses**: expenses that are predictable and occur on a repeating basis.
+- **Interest**: Money the bank gives you for trusting them to look after your money. The more money you have in your account, and the longer you keep it there, the more interest you can earn.
 
 ## Budgeting and saving
 
@@ -74,3 +75,17 @@
   - If your needs are `$2000`, then save up `$6000` to `$12000` in an emergency fund.
 - Follow-up tasks:
   - [ ] Calculate what amount you need for the emergency fund and start saving it.
+
+### Paying yourself first
+
+- Prioritizing saving over needs and wants, not the other way around.
+- A strategy to prioritize saving and investing for your financial goals.
+
+### Savings accounts
+
+A savings account is a great way to save money, earn interest, and grow your wealth over time.
+
+- Traditional savings account: A traditional savings account is the most common type of savings account. Banks will usually offer you a small amount of interest for keeping your money with them. Interest rates are typically low, but these accounts are usually a great place to start, as they are easy to open and come with no fees.
+- High-yield savings account: A high-yield savings account usually offers a higher interest rate than a traditional savings account. This can be a good option if you want to grow your money faster, but there may be some restrictions, such as a minimum balance requirement or withdrawal limits.
+- Money market account: A money market account is a type of savings account that usually has a higher interest rate than a traditional savings account. You may be able to write checks from a money market account but these accounts may also have fees.
+- Certificate of deposit (CD): A CD is a type of savings account where you agree to keep your money with the bank for a certain amount of time (a couple of months to a couple of years). In return, the bank will give you a higher interest rate. If you withdraw your money before the time is up, you may have to pay a penalty.
