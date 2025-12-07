@@ -60,7 +60,7 @@ Assume Go 1.21+ for modern features. Use `go run main.go` to execute examples wh
 
 ## Data Types
 
-- Primitives: int, float64, bool, string, byte (uint8), rune (int32 for Unicode).
+- Primitives: `int`, `float64`, `bool`, `string`, `byte` (`uint8`), `rune` (`int32` for Unicode).
 
   ```go
   var b bool = true
@@ -86,6 +86,73 @@ Assume Go 1.21+ for modern features. Use `go run main.go` to execute examples wh
   m := make(map[string]int)
   m["key"] = 42
   ```
+
+- Strings
+
+```go
+import (
+    "strings"
+    "unicode/utf8"
+    "strconv"
+)
+
+// Immutable – strings are read-only byte slices
+s := "Hello, 世界"
+
+// Length in bytes vs runes
+len(s)            // 13 bytes (Hello, + 6 bytes for 世界)
+utf8.RuneCountInString(s) // 8 runes (correct visual length)
+
+// Indexing & slicing (bytes, not characters!)
+s[0]   // 72  ('H' as byte)
+s[7:]  // "世界"
+
+// Convert to []rune for safe character access
+runes := []rune(s)
+runes[7] = 'go'  // Safe modification
+s = string(runes)
+
+// Common strings package operations
+strings.Contains(s, "world")      // false
+strings.HasPrefix(s, "Hello")     // true
+strings.HasSuffix(s, "世界")       // true
+strings.Index(s, "世")            // 7 (byte index)
+strings.ReplaceAll(s, "Hello", "Hi") // "Hi, 世界"
+strings.Split(s, ",")             // ["Hello" " 世界"]
+strings.Join([]string{"a","b"}, "-") // "a-b"
+strings.ToUpper(s)                // "HELLO, 世界"
+strings.TrimSpace("  hi  ")       // "hi"
+
+// Case-insensitive comparison
+strings.EqualFold("Go", "go")     // true
+
+// Building strings efficiently
+var sb strings.Builder
+sb.WriteString("Hello")
+sb.WriteRune(' ')
+sb.Write([]byte("世界"))
+result := sb.String()             // Most efficient for concatenation
+
+// Alternative: bytes.Buffer (also very fast)
+// fmt.Fprintf(&buf, "%s %d", str, num)
+
+// Conversion
+i, _ := strconv.Atoi("123")       // string → int
+f, _ := strconv.ParseFloat("3.14", 64)
+s = strconv.Itoa(42)              // int → string
+s = strconv.FormatBool(true)      // bool → string
+
+// Formatting verbs
+fmt.Sprintf("%s has %d runes", "世界", utf8.RuneCountInString("世界"))
+// → "世界 has 2 runes"
+```
+
+**Key Takeaways**:
+
+- Strings are immutable byte slices (UTF-8 encoded).
+- Use `[]rune` or `utf8.RuneCountInString()` for correct character counting.
+- Prefer `strings.Builder` or `bytes.Buffer` over `+=` in loops (avoids O(n²)).
+- Most string operations are in the `strings` package; use it!
 
 ## Control Flow
 
