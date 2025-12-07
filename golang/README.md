@@ -2,6 +2,17 @@
 
 - [Go (Golang)](#go-golang)
   - [Installation and Hello World](#installation-and-hello-world)
+  - [Packages and Modules](#packages-and-modules)
+    - [**`cmd/` — Main Application Entrypoints**](#cmd--main-application-entrypoints)
+    - [**`internal/` — Private Application Code (Not Importable Externally)**](#internal--private-application-code-not-importable-externally)
+    - [**`pkg/` — Public Packages (Optional)**](#pkg--public-packages-optional)
+    - [**`api/` — API Definitions (Optional)**](#api--api-definitions-optional)
+    - [**`configs/` — Configuration Files**](#configs--configuration-files)
+    - [**`web/` — Web Assets (Optional)**](#web--web-assets-optional)
+    - [**`scripts/` — Helper Scripts**](#scripts--helper-scripts)
+    - [**`deployments/` / `infra/` — Deployment Files**](#deployments--infra--deployment-files)
+    - [**`test/` — Integration or End-to-End Tests (Optional)**](#test--integration-or-end-to-end-tests-optional)
+    - [Go Modules](#go-modules)
   - [Variables and Constants](#variables-and-constants)
   - [Data Types](#data-types)
   - [Control Flow](#control-flow)
@@ -10,7 +21,6 @@
   - [Structs and Methods](#structs-and-methods)
   - [Interfaces](#interfaces)
   - [Pointers](#pointers)
-  - [Packages and Modules](#packages-and-modules)
   - [Concurrency Basics](#concurrency-basics)
   - [Testing and Benchmarking](#testing-and-benchmarking)
   - [Synchronization Primitives](#synchronization-primitives)
@@ -21,20 +31,439 @@ Assume Go 1.21+ for modern features. Use `go run main.go` to execute examples wh
 
 ## Installation and Hello World
 
-- Install Go: Download from [golang.org/dl](https://golang.org/dl). Set `$GOPATH` and `$GOROOT` if needed (defaults work for most).
-- Hello World:
+1. Download and install:
+   Go is available at the official website: <golang.org/dl>. Installers exist for Windows, macOS, and Linux.
+2. Environment variables:
+   Modern Go versions set up most paths automatically, but traditionally you have:
 
-  ```go
-  package main
-  import "fmt"
+   - GOROOT – Where Go itself is installed. This is usually set by the installer and rarely needs manual editing.
+   - GOPATH – Workspace directory for your Go code and downloaded dependencies.
 
-  func main() {
-      fmt.Println("Hello, World!")
-  }
+     - Default:
+       - Linux/macOS: `~/go`
+       - Windows: `%USERPROFILE%\go`
+     - Inside `$GOPATH`, you will find `bin/`, `pkg/`, and `src/`.
+   - PATH: Ensure `$GOROOT/bin` and `$GOPATH/bin` are in your `PATH` so you can run `go` globally and run installed binaries.
+
+You can verify your installation with:
+
+```bash
+go version
+go env
+```
+
+- Creating a “Hello, World!” Program:
+
+Create a file called `main.go`:
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("Hello, World!")
+}
+```
+
+- Run without compiling to a standalone binary:
+
+  ```bash
+  go run main.go
   ```
 
-- Compile & Run: `go build main.go` creates executable; `go run main.go` for quick execution.
-- Comments: `// single-line` or `/* multi-line */`.
+  This compiles and runs in one step.
+
+- Build an executable:
+
+  ```bash
+  go build main.go
+  ```
+
+  Produces a binary named after your directory or file (`main`, `main.exe` on Windows).
+
+- Install into `$GOPATH/bin` or module-aware bin dir:
+  If inside a module with `package main`:
+
+  ```bash
+  go install
+  ```
+
+  The executable goes into `$GOPATH/bin` or `$GOBIN` if set.
+
+- Single-line comments:
+
+  ```go
+  // This is a single-line comment
+  ```
+
+- Multi-line comments:
+
+  ```go
+  /*
+     This is a multi-line comment
+     spanning multiple lines
+  */
+  ```
+
+## Packages and Modules
+
+Go uses import paths that correspond to folder/module structures.
+
+Example:
+
+```go
+import (
+    "fmt"               // Standard library
+    "math/rand"         // Another stdlib example
+    "github.com/user/repo" // Remote module
+)
+```
+
+Useful to shorten names or avoid conflicts:
+
+```go
+import f "fmt"
+
+func main() {
+    f.Println("aliased fmt")
+}
+```
+
+Sometimes used for side effects (e.g., registering drivers):
+
+```go
+import _ "github.com/mattn/go-sqlite3"
+```
+
+A minimal Go module looks like this:
+
+```text
+myproject/
+│
+├── go.mod
+├── go.sum
+└── main.go
+```
+
+- **`go.mod`** — Defines your module path and lists dependencies.
+- **`go.sum`** — Checksums for dependency verification (auto-generated).
+- **`.go` files** — Your source code.
+
+This is enough for tiny projects or command-line utilities.
+
+As your project grows, Go developers often use a structure like:
+
+```text
+myproject/
+│
+├── cmd/
+├── internal/
+├── pkg/
+├── api/
+├── internal/
+├── configs/
+├── web/
+├── scripts/
+├── deployments/
+├── test/
+└── go.mod
+```
+
+Below is what each folder *typically* means.
+
+### **`cmd/` — Main Application Entrypoints**
+
+Contains one folder per executable your module builds.
+
+Example:
+
+```text
+cmd/
+  myproject/
+    main.go
+  migrate/
+    main.go
+```
+
+Each directory under `cmd/` should contain a `main.go` that imports your internal packages.
+
+**When used:**
+
+- Multi-binary applications
+- Tools shipped with your project
+
+### **`internal/` — Private Application Code (Not Importable Externally)**
+
+Anything under `internal/` **cannot** be imported by modules outside your repo.
+
+Example:
+
+```text
+internal/
+  db/
+    connection.go
+  service/
+    user.go
+    auth.go
+```
+
+**Purpose:**
+
+- Enforce encapsulation
+- Hide implementation details
+- Prevent external projects from depending on unstable code
+
+### **`pkg/` — Public Packages (Optional)**
+
+Code here is **meant to be imported by other modules**.
+
+Example:
+
+```text
+pkg/
+  logger/
+    logger.go
+  utils/
+    strings.go
+```
+
+**NOTE:**
+Many modern Go developers try to avoid `pkg/` and instead rely on root-level packages or `internal/`, but it remains common in open-source ecosystems.
+
+### **`api/` — API Definitions (Optional)**
+
+Common for services.
+
+Could include:
+
+```text
+api/
+  openapi.yaml
+  grpc/
+    user.proto
+```
+
+### **`configs/` — Configuration Files**
+
+Anything like:
+
+```text
+configs/
+  dev.yaml
+  prod.yaml
+  app.toml
+```
+
+Useful for deployments or environment-specific settings.
+
+### **`web/` — Web Assets (Optional)**
+
+If your Go project serves HTML templates, static files, or frontend assets:
+
+```text
+web/
+  templates/
+  static/
+    css/
+    js/
+    img/
+```
+
+### **`scripts/` — Helper Scripts**
+
+Automation scripts:
+
+```text
+scripts/
+  build.sh
+  test.sh
+  migrate_db.py
+```
+
+### **`deployments/` / `infra/` — Deployment Files**
+
+Contains Docker/Kubernetes/Terraform/etc:
+
+```text
+deployments/
+  docker/
+  k8s/
+  terraform/
+```
+
+### **`test/` — Integration or End-to-End Tests (Optional)**
+
+Unit tests usually sit *next to the code*, but complex integration tests are placed in a dedicated folder:
+
+```text
+test/
+  integration/
+  e2e/
+    auth_test.go
+```
+
+- Application code:
+
+  - If it's internal logic → `internal/`
+  - If it’s shared across binaries → `internal/` or `pkg/`
+  - If it’s part of a single service and unlikely to be reused → root packages
+
+Example root-level structure:
+
+```text
+/user
+   service.go
+   repository.go
+/order
+   service.go
+```
+
+This is simple and works well for medium projects.
+
+- Unit Tests
+
+Place tests right next to the source file:
+
+```text
+internal/user/service.go
+internal/user/service_test.go
+```
+
+Rules:
+
+- Test file ends with `_test.go`
+- Usually in the same package
+
+You can also test via an external test package:
+
+```go
+package user_test
+```
+
+This enforces public API testing and discourages internal access.
+
+- Integration / E2E Tests
+
+Place them under:
+
+- `test/` folder
+- OR `integration/` folder under project root
+
+Example:
+
+```text
+test/integration/
+  db_test.go
+  server_test.go
+```
+
+These often run against real DBs or full services.
+
+- Example Practical Project Structure
+
+```text
+myapp/
+│
+├── cmd/
+│   └── myapp/
+│       └── main.go
+│
+├── internal/
+│   ├── user/
+│   │    ├── service.go
+│   │    └── service_test.go
+│   ├── auth/
+│   └── db/
+│
+├── pkg/
+│   └── logger/
+│       └── logger.go
+│
+├── api/
+│   └── openapi.yaml
+│
+├── configs/
+│   └── prod.yaml
+│
+├── web/
+│   ├── templates/
+│   └── static/
+│
+├── test/
+│   └── e2e/
+│       └── user_flow_test.go
+│
+└── go.mod
+```
+
+### Go Modules
+
+- Initialize a Module
+
+Run in your project folder:
+
+```bash
+go mod init github.com/yourname/project
+```
+
+This creates a `go.mod` file that tracks dependencies and module metadata.
+
+- Adding Dependencies
+
+Imports in your code trigger automatic fetching:
+
+```bash
+go get github.com/user/repo
+```
+
+- Updating and Tidying
+
+```bash
+go get -u ./...   # Update deps
+go mod tidy       # Clean up unused deps
+```
+
+- Package Visibility and Export Rules
+
+- Capitalized identifiers are exported (public)
+
+  ```go
+  func DoThing() {}    // Exported
+  ```
+
+- Lowercase identifiers are unexported (private)
+
+  ```go
+  func doThing() {}    // Internal to the package
+  ```
+
+This applies to functions, variables, structs, fields, and methods.
+
+- The `init()` Function
+
+Go lets you define one or more `init` functions per file:
+
+```go
+func init() {
+    fmt.Println("init runs before main")
+}
+```
+
+Rules & behavior:
+
+- `init()` runs **automatically** before `main()` and after package imports are resolved.
+- Useful for:
+  - Setting up configuration
+  - Registering components
+  - Validating environment assumptions
+- Avoid heavy logic; it can make code harder to reason about.
+
+Execution order:
+
+1. Package-level variable initialization
+2. `init()` functions in import dependency order
+3. `main()` finally runs
 
 ## Variables and Constants
 
@@ -315,22 +744,6 @@ fmt.Sprintf("%s has %d runes", "世界", utf8.RuneCountInString("世界"))
 - Passing: Functions take values by default; use pointers for reference.
 - Avoid Nil: Check `if ptr != nil` to prevent panics.
 - Arrays/Slices: Slices are reference types; arrays are value.
-
-## Packages and Modules
-
-- Import:
-
-  ```go
-  import (
-      "fmt"
-      "github.com/user/repo"  // Remote
-  )
-  ```
-
-- Modules: `go mod init module/name` to start.
-- Visibility: Capitalized names exported.
-- Aliases: `import f "fmt"`.
-- Init Func: `func init() { }` runs before main.
 
 ## Concurrency Basics
 
