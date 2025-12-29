@@ -20,3 +20,4 @@
 ## Resources
 
 - personal finance, for idiots like me.: <https://www.youtube.com/watch?v=anvI3ifjHaY>.
+- Khan Academy Financial Literacy Course: <https://www.khanacademy.org/college-careers-more/financial-literacy>.
